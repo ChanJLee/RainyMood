@@ -1,13 +1,13 @@
 package com.chan.rainymood;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.chan.rainymood.biz.setting.SettingsActivity;
+import com.chan.rainymood.common.android.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
