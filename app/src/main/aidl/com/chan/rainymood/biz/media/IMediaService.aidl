@@ -7,6 +7,4 @@ interface IMediaService {
     void pause();
 
     void stop();
-
-    void release();
 }
