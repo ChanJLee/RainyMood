@@ -84,31 +84,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 				@Override
 				public void onPlay() throws RemoteException {
 					mBtnPause.setVisibility(View.VISIBLE);
-					mBtnPlay.setVisibility(View.INVISIBLE);
+					mBtnPlay.setVisibility(View.GONE);
 				}
 
 				@Override
 				public void onPause() throws RemoteException {
-					mBtnPause.setVisibility(View.INVISIBLE);
+					mBtnPause.setVisibility(View.GONE);
 					mBtnPlay.setVisibility(View.VISIBLE);
 				}
 
 				@Override
 				public void onStop() throws RemoteException {
-					mBtnPause.setVisibility(View.INVISIBLE);
+					mBtnPause.setVisibility(View.GONE);
 					mBtnPlay.setVisibility(View.VISIBLE);
 				}
 
 				@Override
 				public void onEnd() throws RemoteException {
-					mBtnPause.setVisibility(View.INVISIBLE);
+					mBtnPause.setVisibility(View.GONE);
 					mBtnPlay.setVisibility(View.VISIBLE);
 				}
 
 				@Override
 				public void onError(MediaError error) throws RemoteException {
 					Toast.makeText(MainActivity.this, "发生错误: " + error.code, Toast.LENGTH_SHORT).show();
-					mBtnPause.setVisibility(View.INVISIBLE);
+					mBtnPause.setVisibility(View.GONE);
 					mBtnPlay.setVisibility(View.VISIBLE);
 				}
 			});

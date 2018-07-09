@@ -13,6 +13,8 @@ import java.io.IOException;
  */
 
 public class MediaServiceImpl extends IMediaService.Stub {
+	private static final String URL_ASSETS_PREFIX = "file:///android_asset/";
+
 	private MediaPlayer mMediaPlayer;
 	private Context mContext;
 	private Listener mListener;
@@ -26,7 +28,7 @@ public class MediaServiceImpl extends IMediaService.Stub {
 		release();
 
 		// just support asset
-		if (!item.url.startsWith("file:///android_asset/")) {
+		if (!item.url.startsWith(URL_ASSETS_PREFIX)) {
 			return;
 		}
 
@@ -64,7 +66,7 @@ public class MediaServiceImpl extends IMediaService.Stub {
 			});
 
 			// just play assert resource
-			String file = item.url.replace("file:///android_asset/", "");
+			String file = item.url.replace(URL_ASSETS_PREFIX, "");
 			AssetFileDescriptor descriptor = mContext.getAssets().openFd(file);
 			mMediaPlayer.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
 			descriptor.close();
