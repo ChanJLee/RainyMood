@@ -1,6 +1,7 @@
 package com.chan.rainymood.common.cview.stage;
 
 import android.content.Context;
+import android.graphics.PixelFormat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -42,6 +43,9 @@ public class RainyStage extends SurfaceView implements SurfaceHolder.Callback {
 				e("interrupt thread failed");
 			}
 		}
+
+		setZOrderOnTop(true);
+		holder.setFormat(PixelFormat.TRANSLUCENT);
 	}
 
 	@Override
