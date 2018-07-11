@@ -2,65 +2,63 @@ package com.chan.rainymood.common.cview.stage;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.SystemClock;
+import android.util.Log;
 
 /**
  * Created by chan on 2018/7/9.
  */
 
 public class Rain {
-
-	private float mX;
-	private float mY;
-
 	private float mStartX;
 	private float mStartY;
 
 	private float mSpeed;
-	private int mColor;
-	private int mRenderCount;
 	private boolean mEnd = false;
+	private Paint mPaint;
 
 	public Rain(float x, float y, float speed, int color) {
-		mX = mStartX = x;
-		mY = mStartY = y;
+		mStartX = x;
+		mStartY = y;
 		mSpeed = speed;
-		mColor = color;
+
+		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mPaint.setColor(color);
+		mPaint.setStrokeWidth(20);
 	}
 
-	public void render(Canvas canvas, float destX, float destY) {
-		if (!isValid()) {
+	public void render(Canvas canvas, float destX, float destY, float offsetX, float offsetY) {
+		if (canvas == null) {
 			return;
 		}
 
-		if (isEnd(destX, destY)) {
+		if (isEnd()) {
+			return;
+		}
+
+		float deltaX = mStartX - destX;
+		float deltaY = mStartY - destY;
+		float distance = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+
+		if (distance < mSpeed || distance == 0f) {
 			mEnd = true;
 			return;
 		}
 
-		float leftDistance = (float) Math.sqrt(Math.pow(destX - mStartX, 2) + Math.pow(destY - mStartY, 2));
-		float x = mSpeed * (destX - mStartX) / leftDistance;
-		float y = mSpeed * (destY - mStartY) / leftDistance;
-	}
+		long x = SystemClock.elapsedRealtime();
+		float endX = deltaX / distance * mSpeed + mStartX + offsetX;
+		float endY = deltaY / distance * mSpeed + mStartY + offsetY;
 
-	private boolean isEnd(float destX, float destY) {
-		if (mX >= destX) {
-			if (mY >= destY && mStartY <= destY) {
-				return true;
-			} else if (mY <= destY && mStartY >= destY) {
-				return true;
-			}
-		} else {
-			if (mY >= destY && mStartY <= destY) {
-				return true;
-			} else if (mY <= destY && mStartY >= destY) {
-				return true;
-			}
+		canvas.drawLine(mStartX, mStartY, endX, endY, mPaint);
+		mStartX = endX;
+		mStartY = endY;
+
+		if (SystemClock.elapsedRealtime() - x > 200) {
+			Log.d("chan_debug", "data" + mStartX + " " + mStartY + " " + endX + " " + endY);
 		}
-
-		return false;
 	}
 
-	public boolean isValid() {
-		return mRenderCount >= 0 || mEnd;
+	public boolean isEnd() {
+		return mEnd;
 	}
 }
