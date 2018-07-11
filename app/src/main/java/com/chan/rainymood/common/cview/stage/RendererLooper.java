@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.SurfaceHolder;
 
 /**
@@ -21,7 +20,7 @@ public class RendererLooper implements Runnable {
 		mWidth = width;
 		mHeight = height;
 		mHolder = holder;
-		mRain = new Rain(width / 2, height / 2, 5, Color.WHITE);
+		mRain = new Rain(width / 2, height / 2, 1, 5, 20, Color.WHITE);
 	}
 
 	@Override
@@ -34,9 +33,6 @@ public class RendererLooper implements Runnable {
 			if (canvas != null) {
 				// clear stage
 				canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-
-				// TODO render rain, now only one
-				// 缺陷，surface view 效率跟不上
 				mRain.render(canvas, mWidth / 2, mHeight * 0.8F, 0, 0);
 			}
 
