@@ -10,15 +10,13 @@ import android.graphics.Paint;
 public class Rain {
 	private float mStartX;
 	private float mStartY;
-	private float mSpeed;
 	private float mLength;
 	private boolean mEnd = false;
 	private Paint mPaint;
 
-	public Rain(float x, float y, float speed, float length, float width, int color) {
+	public Rain(float x, float y, float length, float width, int color) {
 		mStartX = x;
 		mStartY = y;
-		mSpeed = speed;
 		mLength = length;
 
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
