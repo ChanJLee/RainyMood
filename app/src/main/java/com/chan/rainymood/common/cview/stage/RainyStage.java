@@ -19,7 +19,7 @@ import java.util.Random;
  */
 
 public class RainyStage extends View {
-	private static final int MIN_RAINS = 25;
+	private static final int MIN_RAINS = 40;
 
 	private List<Rain> mRains = new ArrayList<>();
 	private float mOffsetX = 0;
