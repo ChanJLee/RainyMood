@@ -44,8 +44,8 @@ public class Rain {
 			return;
 		}
 
-		float endX = mStartX + mLength / distance * deltaX;
-		float endY = mStartY + mLength / distance * deltaY;
+		float endX = mStartX - mLength / distance * deltaX + offsetX;
+		float endY = mStartY - mLength / distance * deltaY + offsetY;
 		canvas.drawLine(mStartX, mStartY, endX, endY, mPaint);
 
 		mStartX = endX;
