@@ -14,12 +14,14 @@ public class Rain {
 	private float mSpeed;
 	private boolean mEnd = false;
 	private Paint mPaint;
+	private float mMinDistance;
 
 	public Rain(float x, float y, float length, float width, int color) {
 		mStartX = x;
 		mStartY = y;
-		mSpeed = length * 0.5f + 0.2f * width;
+		mSpeed = length * 0.3f + 0.2f * width;
 		mLength = length;
+		mMinDistance = 10 + 3.5f * mLength;
 
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setColor(color);
@@ -39,13 +41,13 @@ public class Rain {
 		float deltaY = mStartY - destY;
 		float distance = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 
-		if (distance == 0 || distance <= mLength || mStartY >= destY) {
+		if (distance == 0 || distance <= mMinDistance) {
 			mEnd = true;
 			return;
 		}
 
-		float endX = mStartX - mLength / distance * deltaX + offsetX;
 		float endY = mStartY - mLength / distance * deltaY + offsetY;
+		float endX = mStartX - mLength / distance * deltaX + offsetX;
 		canvas.drawLine(mStartX, mStartY, endX, endY, mPaint);
 
 		mStartX = mStartX - mSpeed / distance * deltaX + offsetX;
