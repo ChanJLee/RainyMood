@@ -33,7 +33,7 @@ public class RendererLooper implements Runnable {
 			if (canvas != null) {
 				// clear stage
 				canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-				mRain.render(canvas, mWidth / 2, mHeight * 0.8F, 0, 0);
+				mRain.render(canvas, mWidth / 2, mHeight, 0, 0);
 			}
 
 			try {

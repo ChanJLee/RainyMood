@@ -2,6 +2,7 @@ package com.chan.rainymood.common.cview.stage;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 /**
  * Created by chan on 2018/7/9.
@@ -39,7 +40,7 @@ public class Rain {
 		float deltaY = mStartY - destY;
 		float distance = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 
-		if (distance == 0f) {
+		if (distance == 0f || distance <= mLength || !check(destX, destY)) {
 			mEnd = true;
 			return;
 		}
@@ -47,13 +48,36 @@ public class Rain {
 		float endX = mStartX - deltaX / distance * mLength + offsetX;
 		float endY = mStartY - deltaY / distance * mLength + offsetY;
 
+		if (endY < mStartY) {
+			mEnd = true;
+			return;
+		}
+
+		Log.d("chan_debug", mStartX + " " + mStartY + " " + endX + " " + endY);
+
 		canvas.drawLine(mStartX, mStartY, endX, endY, mPaint);
 
-		mStartX = endX - deltaX / distance * mSpeed + offsetX;
-		mStartY = endY - deltaY / distance * mSpeed + offsetY;
+		mStartX = endX;
+		mStartY = endY;
+
+		if (mStartY <= deltaY) {
+			mEnd = true;
+		}
 	}
 
 	public boolean isEnd() {
 		return mEnd;
+	}
+
+	public boolean check(float destX, float destY) {
+		if (mStartX <= destX && mStartY <= destY) {
+			return true;
+		}
+
+		if (mStartX >= destX && mStartY <= destY) {
+			return true;
+		}
+
+		return false;
 	}
 }
