@@ -5,9 +5,13 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.SystemClock;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
+
+import com.chan.rainymood.R;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,6 +29,7 @@ public class RainyStage extends View {
 	private float mOffsetX = 0;
 	private float mOffsetY = 0;
 	private Random mRandom;
+	private int mColors[];
 
 	public RainyStage(Context context) {
 		this(context, null);
@@ -36,42 +41,36 @@ public class RainyStage extends View {
 
 	public RainyStage(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		init();
+		init(context);
 	}
 
 	private ValueAnimator mValueAnimator;
 
-	private void init() {
+	private void init(Context context) {
 		mRandom = new Random(SystemClock.elapsedRealtime());
-		setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO test code
-				if (mValueAnimator != null) {
-					mValueAnimator.cancel();
-				}
-
-				mValueAnimator = ValueAnimator.ofInt(0, Integer.MAX_VALUE);
-				mValueAnimator.setDuration(Long.MAX_VALUE);
-				mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-					@Override
-					public void onAnimationUpdate(ValueAnimator animation) {
-						invalidate();
-					}
-				});
-				mValueAnimator.setInterpolator(new LinearInterpolator());
-				mValueAnimator.setRepeatMode(ValueAnimator.RESTART);
-				mValueAnimator.start();
-			}
-		});
+		mColors = new int[4];
+		mColors[0] = Color.WHITE;
+		mColors[1] = ContextCompat.getColor(context, R.color.colorAccent);
+		mColors[2] = Color.WHITE;
+		mColors[3] = Color.WHITE;
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		float destX = getWidth() / 2;
-		float destY = getHeight() * 0.8f;
+		int width = getWidth();
+		if (width == 0) {
+			return;
+		}
+
+		int height = getHeight();
+		if (height == 0) {
+			return;
+		}
+
+		float destX = width / 2;
+		float destY = height * 0.9f;
 
 		inflateRain();
 		Iterator<Rain> iterator = mRains.iterator();
@@ -98,7 +97,7 @@ public class RainyStage extends View {
 					mRandom.nextInt(height),
 					mRandom.nextInt(60) + 10,
 					mRandom.nextInt(10) + 5,
-					Color.WHITE
+					mColors[mRandom.nextInt(mColors.length)]
 			);
 			mRains.add(rain);
 		}
@@ -107,5 +106,37 @@ public class RainyStage extends View {
 	public void offsetRains(float offsetX, float offsetY) {
 		mOffsetX = offsetX;
 		mOffsetY = offsetY;
+	}
+
+	public void start() {
+		if (getWidth() < 0 || getHeight() < 0) {
+			getViewTreeObserver().addOnDrawListener(new ViewTreeObserver.OnDrawListener() {
+				@Override
+				public void onDraw() {
+					getViewTreeObserver().removeOnDrawListener(this);
+					start();
+				}
+			});
+			return;
+		}
+
+		cancel();
+		mValueAnimator = ValueAnimator.ofInt(0, Integer.MAX_VALUE);
+		mValueAnimator.setDuration(Long.MAX_VALUE);
+		mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animation) {
+				invalidate();
+			}
+		});
+		mValueAnimator.setInterpolator(new LinearInterpolator());
+		mValueAnimator.setRepeatMode(ValueAnimator.RESTART);
+		mValueAnimator.start();
+	}
+
+	public void cancel() {
+		if (mValueAnimator != null) {
+			mValueAnimator.cancel();
+		}
 	}
 }

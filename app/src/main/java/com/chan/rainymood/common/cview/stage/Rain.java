@@ -46,12 +46,16 @@ public class Rain {
 			return;
 		}
 
-		float endY = mStartY - mLength / distance * deltaY + offsetY;
-		float endX = mStartX - mLength / distance * deltaX + offsetX;
-		canvas.drawLine(mStartX, mStartY, endX, endY, mPaint);
+		float endX = filterOffsetValue(mStartX - mLength / distance * deltaX, offsetX);
+		float endY = filterOffsetValue(mStartY - mLength / distance * deltaY, offsetY);
+		canvas.drawLine(filterOffsetValue(mStartX, offsetX), filterOffsetValue(mStartY, offsetY), endX, endY, mPaint);
 
-		mStartX = mStartX - mSpeed / distance * deltaX + offsetX;
-		mStartY = mStartY - mSpeed / distance * deltaY + offsetY;
+		mStartX = filterOffsetValue(mStartX - mSpeed / distance * deltaX, offsetX);
+		mStartY = filterOffsetValue(mStartY - mSpeed / distance * deltaY, offsetY);
+	}
+
+	private float filterOffsetValue(float value, float offset) {
+		return offset >= value ? value : value + offset;
 	}
 
 	public boolean isEnd() {
