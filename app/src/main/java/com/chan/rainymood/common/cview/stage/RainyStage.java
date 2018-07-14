@@ -51,8 +51,8 @@ public class RainyStage extends View {
 					mValueAnimator.cancel();
 				}
 
-				mValueAnimator = ValueAnimator.ofFloat(0, 1);
-				mValueAnimator.setDuration(500000);
+				mValueAnimator = ValueAnimator.ofInt(0, Integer.MAX_VALUE);
+				mValueAnimator.setDuration(Long.MAX_VALUE);
 				mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 					@Override
 					public void onAnimationUpdate(ValueAnimator animation) {
