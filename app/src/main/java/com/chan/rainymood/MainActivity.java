@@ -10,7 +10,6 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -153,11 +152,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		float[] values = event.values;
-		mRainyStage.offsetRains(filterSensorValue(values[0]), filterSensorValue(values[1]));
+		mRainyStage.offsetRains(filterSensorValue(-values[0]), filterSensorValue(values[1]));
 	}
 
 	private static float filterSensorValue(float value) {
-		return Math.abs(value) < 0.5f ? 0f : value;
+		return Math.abs(value) < 0.5f ? 0f : value * 50;
 	}
 
 	@Override

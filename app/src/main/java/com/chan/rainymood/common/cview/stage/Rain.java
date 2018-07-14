@@ -37,8 +37,8 @@ public class Rain {
 			return;
 		}
 
-		float deltaX = mStartX - destX;
-		float deltaY = mStartY - destY;
+		float deltaX = mStartX - (destX + offsetX);
+		float deltaY = mStartY - (destY + offsetY);
 		float distance = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 
 		if (distance == 0 || distance <= mMinDistance) {
@@ -46,16 +46,12 @@ public class Rain {
 			return;
 		}
 
-		float endX = filterOffsetValue(mStartX - mLength / distance * deltaX, offsetX);
-		float endY = filterOffsetValue(mStartY - mLength / distance * deltaY, offsetY);
-		canvas.drawLine(filterOffsetValue(mStartX, offsetX), filterOffsetValue(mStartY, offsetY), endX, endY, mPaint);
+		float endY = mStartY - mLength / distance * deltaY;
+		float endX = mStartX - mLength / distance * deltaX;
+		canvas.drawLine(mStartX, mStartY, endX, endY, mPaint);
 
-		mStartX = filterOffsetValue(mStartX - mSpeed / distance * deltaX, offsetX);
-		mStartY = filterOffsetValue(mStartY - mSpeed / distance * deltaY, offsetY);
-	}
-
-	private float filterOffsetValue(float value, float offset) {
-		return offset >= value ? value : value + offset;
+		mStartX = mStartX - mSpeed / distance * deltaX;
+		mStartY = mStartY - mSpeed / distance * deltaY;
 	}
 
 	public boolean isEnd() {
