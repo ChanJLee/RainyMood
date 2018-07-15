@@ -33,7 +33,7 @@
             android:layout_weight="1.5">
 
             <TextView
-                android:id="@+id/text"
+                android:id="@+id/start_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -41,6 +41,15 @@
                 android:text="开始专注"
                 android:textColor="#ffffff"
                 android:textSize="28sp"/>
+
+            <TextView
+                android:id="@+id/prompt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:textColor="#ffffff"
+                android:textSize="35sp"/>
         </FrameLayout>
 
         <FrameLayout
@@ -53,9 +62,9 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
+                android:alpha="0"
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
-                android:visibility="gone"
                 app:srcCompat="@drawable/ic_pause"/>
 
             <ImageView

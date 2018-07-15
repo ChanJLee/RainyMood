@@ -9,6 +9,10 @@ import android.os.Parcelable;
 
 public class MediaItem implements Parcelable {
 	public String url;
+	public boolean looping;
+
+	public MediaItem() {
+	}
 
 	@Override
 	public int describeContents() {
@@ -18,16 +22,15 @@ public class MediaItem implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.url);
-	}
-
-	public MediaItem() {
+		dest.writeByte(this.looping ? (byte) 1 : (byte) 0);
 	}
 
 	protected MediaItem(Parcel in) {
 		this.url = in.readString();
+		this.looping = in.readByte() != 0;
 	}
 
-	public static final Parcelable.Creator<MediaItem> CREATOR = new Parcelable.Creator<MediaItem>() {
+	public static final Creator<MediaItem> CREATOR = new Creator<MediaItem>() {
 		@Override
 		public MediaItem createFromParcel(Parcel source) {
 			return new MediaItem(source);

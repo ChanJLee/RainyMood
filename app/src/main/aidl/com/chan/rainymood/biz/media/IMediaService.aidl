@@ -13,4 +13,6 @@ interface IMediaService {
     void stop();
 
     void release();
+
+    boolean isPlaying();
 }

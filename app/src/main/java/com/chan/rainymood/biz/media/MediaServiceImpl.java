@@ -71,6 +71,7 @@ public class MediaServiceImpl extends IMediaService.Stub {
 			mMediaPlayer.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
 			descriptor.close();
 			mMediaPlayer.prepare();
+			mMediaPlayer.setLooping(item.looping);
 			mMediaPlayer.start();
 			if (mListener != null) {
 				mListener.onPlay();
@@ -111,5 +112,10 @@ public class MediaServiceImpl extends IMediaService.Stub {
 		if (mMediaPlayer != null) {
 			mMediaPlayer.release();
 		}
+	}
+
+	@Override
+	public boolean isPlaying() throws RemoteException {
+		return mMediaPlayer != null && mMediaPlayer.isPlaying();
 	}
 }
