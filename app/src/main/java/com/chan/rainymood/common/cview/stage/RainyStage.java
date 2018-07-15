@@ -23,7 +23,7 @@ import java.util.Random;
  */
 
 public class RainyStage extends View {
-	private static final int MIN_RAINS = 40;
+	private static final int MIN_RAINS = 80;
 
 	private List<Rain> mRains = new ArrayList<>();
 	private float mOffsetX = 0;
@@ -48,11 +48,12 @@ public class RainyStage extends View {
 
 	private void init(Context context) {
 		mRandom = new Random(SystemClock.elapsedRealtime());
-		mColors = new int[4];
-		mColors[0] = Color.WHITE;
-		mColors[1] = ContextCompat.getColor(context, R.color.colorAccent);
+		mColors = new int[5];
+		mColors[0] = ContextCompat.getColor(context, R.color.colorAccent);
+		mColors[1] = Color.WHITE;
 		mColors[2] = Color.WHITE;
 		mColors[3] = Color.WHITE;
+		mColors[4] = Color.WHITE;
 	}
 
 	@Override
@@ -70,7 +71,7 @@ public class RainyStage extends View {
 		}
 
 		float destX = width / 2;
-		float destY = height * 0.9f;
+		float destY = height * 1.2f;
 
 		inflateRain();
 		Iterator<Rain> iterator = mRains.iterator();
@@ -95,8 +96,8 @@ public class RainyStage extends View {
 			Rain rain = new Rain(
 					mRandom.nextInt(width),
 					mRandom.nextInt(height),
-					mRandom.nextInt(60) + 10,
-					mRandom.nextInt(10) + 5,
+					mRandom.nextInt(80) + 10,
+					mRandom.nextInt(5) + 5,
 					mColors[mRandom.nextInt(mColors.length)]
 			);
 			mRains.add(rain);
